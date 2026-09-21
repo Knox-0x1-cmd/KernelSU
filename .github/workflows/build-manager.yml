@@ -89,6 +89,13 @@ jobs:
           echo "Certificate size: $SIZE_HEX ($SIZE_DEC bytes)"
           echo "Certificate hash: $HASH"
 
+      - name: Set outputs for non-PR events
+        if: github.event_name != 'pull_request'
+        id: set_outputs
+        run: |
+          echo "expected_size=" >> $GITHUB_OUTPUT
+          echo "expected_hash=" >> $GITHUB_OUTPUT
+
   build-lkm:
     needs: generate-key
     uses: ./.github/workflows/build-lkm.yml
